@@ -25,8 +25,8 @@ module.exports = {
 
     module: {
         rules: [
-            // All files with a '.ts' or '.tsx' extension will be handled by 'awesome-typescript-loader'.
-            { test: /\.tsx?$/, loader: "awesome-typescript-loader" },
+            // All files with a '.ts' or '.tsx' extension will be handled by 'ts-loader'.
+            { test: /\.tsx?$/, loader: "ts-loader" },
 
             // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
             { enforce: "pre", test: /\.js$/, loader: "source-map-loader" },
@@ -43,10 +43,10 @@ module.exports = {
 
     // copy unpacked files to server static path
     plugins: [
-        new CopyPlugin([
+        new CopyPlugin({ patterns: [
             { from: './node_modules/babylonjs/babylon.js', to: 'babylon.min.js' },
             { from: './node_modules/hammerjs/hammer.min.js', to: 'hammer.min.js' }
-        ]),
+        ]}),
     ],
 
     // large assets are necessary and need no worry
