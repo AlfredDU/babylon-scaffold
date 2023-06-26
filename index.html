@@ -2,7 +2,9 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="/images/pixi.js.png" />
+    
     <!-- meta configure for full screen app -->
     <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0,
         width=device-width, user-scalable=no, minimal-ui">
@@ -11,22 +13,14 @@
     <meta name="screen-orientation" content="portrait"/>
 
     <title>Babylon.js 3D game scaffold project</title>
-
-    <!-- style for full-screen -->
-    <link rel="stylesheet" href="css/full-screen.css" type="text/css">
-
-    <!-- babylon.js -->
-    <script src="dist/babylon.min.js"></script>
-    <!-- hammerjs for gesture -->
-    <script src="dist/hammer.min.js"></script>
 </head>
 
 <body>
-
     <!--WebGL canvas. touch-action="none" for best results from PEP -->
     <canvas id="renderCanvas"></canvas>
 
-    <!-- app file -->
-    <script src="dist/main.js"></script>
+    <!-- app entry -->
+    <script type="module" src="/src/main.ts"></script>
 </body>
+
 </html>

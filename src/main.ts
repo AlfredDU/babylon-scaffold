@@ -3,11 +3,16 @@
 // imports
 import Stage from './Stage'
 
+// import assets
+import './full-screen.css'
+
+
 // constants
 const CANVAS_ID = 'renderCanvas'
 
 
 window.onload = () => {
+    // greeting
     console.log('hello')
 
     // main scene

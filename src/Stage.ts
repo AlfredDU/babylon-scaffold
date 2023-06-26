@@ -1,4 +1,6 @@
-///<reference path="../node_modules/babylonjs/babylon.module.d.ts" />
+/** main stage */
+// imports
+import * as BABYLON from 'babylonjs'
 import Lambda from './Lambda'
 
 /** constants */
@@ -7,8 +9,8 @@ const MAIN_CAMERA_NAME = 'main_camera'
 const AMBIENT_LIGHT_NAME = 'ambient_light'
 const MAIN_OBJECT_NAME = 'sphere'
 
-// assets; use 'require' for webpack packing work
-const TEXTURE_URL = require('../images/babylon.js.png')
+// import assets
+import TEXTURE_URL from '/images/babylon.js.png'
 
 // scalar
 const MAIN_BACKGROUND_COLOR = '#000000'
@@ -27,19 +29,13 @@ export default class Stage {
     engine: BABYLON.Engine
     scene: BABYLON.Scene
 
-    mesh: BABYLON.Mesh
-    camera: BABYLON.FreeCamera
-
-    // static get assets(): Array<string> {
-    //     return [
-    //         PIXI_LOGO_URL
-    //     ]
-    // }
+    mesh?: BABYLON.Mesh
+    camera?: BABYLON.FreeCamera
 
     // constructor
     constructor(render_canvas: HTMLCanvasElement) {
         // dimension; mind the retina display
-        this.dpr = Lambda.device_dpr()
+        this.dpr = Lambda.device_dpr
         this.width = window.innerWidth * this.dpr
         this.height = window.innerHeight * this.dpr
 
@@ -50,7 +46,7 @@ export default class Stage {
 
         // WebGL rendering engine
         this.engine = new BABYLON.Engine(this.canvas, true, {
-            disableWebGL2Support: true,  // for widely browser support
+            // disableWebGL2Support: true,  // set as `true` for widely browser support
             stencil: true
         })
 
@@ -77,8 +73,8 @@ export default class Stage {
         // bind loop
         this.engine.runRenderLoop(() =>{
             // rotate
-            this.mesh.rotation.x += 0.1
-            this.mesh.rotation.y += 0.1
+            this.mesh!.rotation.x += 0.1
+            this.mesh!.rotation.y += 0.1
 
             // Render main scene
             this.scene.render()
@@ -130,14 +126,18 @@ export default class Stage {
     }
 
 
-    // gesture recognizer using hammer js
+    // gesture recognizer
     create_gesture(): void {
-        const recognizer_manager = new Hammer.Manager(this.canvas)
+        this.scene.onPointerObservable.add((pointer_info) => {
+            switch (pointer_info.type) {
+                // Add Tap gesture recognizer
+                case BABYLON.PointerEventTypes.POINTERTAP:
+                    this.on_tap(pointer_info.event.x * this.dpr, pointer_info.event.y * this.dpr)
+                    break
 
-        // Add Tap gesture recognizer
-        recognizer_manager.add(new Hammer.Tap({}))
-        recognizer_manager.on('tap', (e) => {
-            this.on_tap(e.center.x * this.dpr, e.center.y * this.dpr)
+                default:
+                    break
+            }
         })
     }
 
@@ -145,7 +145,7 @@ export default class Stage {
     on_tap(x: number, y: number): void {
         const pick_result = this.scene.pick(x, y)
         if (pick_result.hit) {
-            const picked_name = pick_result.pickedMesh.name
+            const picked_name = pick_result.pickedMesh!.name
             console.log(picked_name)
         }
     }

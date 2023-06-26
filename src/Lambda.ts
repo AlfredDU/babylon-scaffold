@@ -3,7 +3,7 @@
 export default class Lambda {
 
     // device dpr
-    static device_dpr(): number {
+    static get device_dpr(): number {
         return window.devicePixelRatio
     }
 }
